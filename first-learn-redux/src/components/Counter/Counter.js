@@ -16,10 +16,10 @@ const CounterTitle = styled.h1`
 
 
 const Counter = (props) => {
-    const {value, color, onIncrement, onDecrement} = props;
+    const {number, color, onIncrement, onDecrement} = props;
     return (
         <CounterContainer>
-            <CounterTitle color={color}>{value}</CounterTitle>
+            <CounterTitle color={color}>{number}</CounterTitle>
             <button onClick={onIncrement}>+</button>
             <button onClick={onDecrement}>-</button>
         </CounterContainer>

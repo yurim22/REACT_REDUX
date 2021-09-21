@@ -1,14 +1,15 @@
 import "./App.css";
-import { Counter } from "./components/Counter";
+// import { Counter } from "./components/Counter";
 // import Palette from './components/Palette/Palette';
 import WaitingList from "./components/WaitingList/WaitingList";
 import PaletteContainer from "./containers/PaletteContainer";
+import CounterContainer from "./containers/CounterContainer";
 
 function App() {
   return (
     <div className="App">
       <PaletteContainer />
-      <Counter value={0} />
+      <CounterContainer />
       <WaitingList />
     </div>
   );
