@@ -251,3 +251,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(PaletteContainer);
   - 여기 있는 mapDispatchToProps는 `color`를 파라미터로 받아와서, 그 값을 가지고 `CHANGE_COLOR` 액션 객체를 생성한 다음에 스토어한테 디스패치 하는 함수를 컴포넌트의 props로 전달해주는 것이다.
 
 `connect` 함수가 호출되면, 반환하는 값은 특정 컴포넌트에 설정된 props를 전달해주는 함수이다.
+
+
+<참고>
+* https://velog.io/@velopert/Redux-3-%EB%A6%AC%EB%8D%95%EC%8A%A4%EB%A5%BC-%EB%A6%AC%EC%95%A1%ED%8A%B8%EC%99%80-%ED%95%A8%EA%BB%98-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-nvjltahf5e#%EC%95%A1%EC%85%98-%ED%83%80%EC%9E%85-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0-1
