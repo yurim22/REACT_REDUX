@@ -22,9 +22,7 @@ const ItemContainer = styled.div`
 `
 
 const PaletteItem = (props) => {
-    console.log(props)
     const {color , active, onClick} = props;
-    console.log(color);
     return (
         <ItemContainer color={color} active={active} onClick={onClick}></ItemContainer>
     )
