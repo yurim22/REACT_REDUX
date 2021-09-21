@@ -9,11 +9,15 @@ const ItemContainer = styled.div`
     height: 2rem;
     cursor: pointer;
     border:2px solid white;
-    maring-right: 0.5rem;
+    margin-right: 5px;
     ${itemWithProps};
 
     &:hover {
         opacity: 0.9;
+    }
+
+    &:active {
+        opacity: 1;
     }
 `
 
