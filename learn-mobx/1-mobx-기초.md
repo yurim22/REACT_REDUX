@@ -157,4 +157,4 @@ const postStore = observable({
 });
 ```
 
-안에다가 action 함수를 바로 포함시켜서 상태변화까지 실행
+안에다가 action 함수를 바로 포함시켜서 상태변화까지 실행한다.
