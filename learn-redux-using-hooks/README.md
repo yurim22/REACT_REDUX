@@ -36,3 +36,5 @@ const store = createStore(rootReducer, composeWithDevTools());
 * `useDispatch` -> `mapDispatchToProps` 와 같은 기능을 하는 것 같다.
 
 두 hook을 사용하면서 connect 함수를 쓰지 않게 되었다.
+
++ redux saga 내용 추가
