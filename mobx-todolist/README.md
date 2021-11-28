@@ -1,70 +1,93 @@
-# Getting Started with Create React App
+# TodoList using Mobx
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1. Mobx Installation
 
-## Available Scripts
+```
+$ npm install mobx mobx-react
+```
+⭐️`mobx-react` 는 v6 이상부터 hooks 문법을 지원한다.
 
-In the project directory, you can run:
+### Store
 
-### `yarn start`
+#### /src/stores/todo.ts
+```typescript
+import { observable } from 'mobx';
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+export interface TodoData {
+  id: number;
+  content: string;
+  checked: boolean;
+}
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+interface Todo {
+  todoData: TodoData[];
+  currentId: number;
+  addTodo: (content: string) => void;
+  removeTodo: (id: number) => void;
+}
 
-### `yarn test`
+// mobx에서 store를 만드는 방법 
+// : todo 객체를 선언하고 `observable`로 감싸준다.
+export const todo = observable<Todo>({
+  todoData: [],
+  currentId: 0,
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  addTodo(content) {
+    this.todoData.push({ id: this.currentId, content, checked: false });
+    this.currentId++;
+  },
+  removeTodo(id) {
+    const index = this.todoData.findIndex((v) => v.id === id);
+    if (id !== -1) {
+      this.todoData.splice(index, 1);
+    }
+  },
+});
+```
+👉🏻 store를 만드는 방법은 todo 객체를 선언하고 `observable`로 감싸준다.
+store 객체 안에 action을 선언 할 수 있다.
 
-### `yarn build`
+#### /src/useStore.ts
+``` typescript
+import {todo} from './store/todo';
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+const useStore = () => ({todo});
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+export default useStore;
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`useStore`는 컴포넌트 마다 스토어를 사용하기 위해 작성한다. 
+만약 스토어가 여러개일 경우 불러와서 합쳐주면 된다.
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### component에서 action 사용하기
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+👉🏻각 component에서 `const {todo} = useStore();` 과 같이 store를 불러와서 사용할 수 있다.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+👉🏻`todo.removeTodo(data.id)` 이렇게 store안의 action을 쓸 수 있다.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### component에서 store 값 사용하기
+👉🏻 데이터를 사용할 때는 해당 컴포넌트를 `useObserver`로 감싸워야 한다.
 
-## Learn More
+#### /src/component/TodoList.tsx
+```typescript
+import React from 'react';
+import {useObserver} from 'mobx-react';
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+import useStore from '../useStore';
+import TodoItem from './TodoItem';
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+const TodoList = () => {
+    const {todo: {todoData}} = useStore();
+}
 
-### Code Splitting
+return useObsever(() => (
+    <section>
+        {todoData.map((v) => (
+            <TodoItem data={v} key={`todoData_${v.id}`} />
+        ))}
+    </section>
+))
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+export default TodoList;
+```
