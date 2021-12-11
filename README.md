@@ -14,8 +14,10 @@ using useSelector, useDispatch
 
 ["리덕스"](https://react.vlpt.us/redux/)
 
-------------------------------
 
 #### 3. redux, redux-saga
 ##### zerocho - "Node Bird" 
 using useSelector, useDispatch, redux-saga
+
+#### 4. mobx
+##### mobx를 활용해 간단한 todolist 만들기
